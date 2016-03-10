@@ -1,1 +1,1 @@
-# flickrmylocation: Location based Flickr App
+Location based Flickr App

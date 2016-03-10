@@ -1,36 +1,40 @@
 package de.hs_bremen.nhinte.flickrmylocation;
 
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.AsyncTask;
+import android.widget.ImageView;
+import android.widget.TextView;
 
-import org.json.JSONArray;
+import com.squareup.picasso.Picasso;
+
 import org.json.JSONException;
 import org.json.JSONObject;
-
-
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class JSONAsyncTask extends AsyncTask<String, Void, Boolean>{
-    private String bufferdResult = "";
-
-
-
-    private String imageUrl = "";
+public class JSONAsyncTask extends AsyncTask<String, String, String>{
 
     protected void onPreExecute() {
         super.onPreExecute();
+    }
 
+    private Context context;
+    private String targetUrl;
+
+    public JSONAsyncTask(Context context, String targetUrl){
+        this.context = context;
+        this.targetUrl = targetUrl;
     }
 
     @Override
-    protected Boolean doInBackground(String... urls) {
+    protected String doInBackground(String... urls) {
         URL url = null;
         HttpURLConnection urlConnection = null;
         ByteArrayOutputStream outString = new ByteArrayOutputStream();
@@ -40,16 +44,14 @@ public class JSONAsyncTask extends AsyncTask<String, Void, Boolean>{
 
 
         try {
-            url = new URL("https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=e07a1743a12566b5e20dd17eae2a295e&tags=City%2CLandscape%2CNature&geo_context=0&lat=53.0833333&lon=8.8&10&format=json&per_page=10&page=1&nojsoncallback=1");
+            url = new URL(targetUrl);
             urlConnection = (HttpURLConnection) url.openConnection();
             InputStream in = new BufferedInputStream(urlConnection.getInputStream());
 
             while ((numRead = in.read(buffer)) != -1) {
                 outString.write(buffer, 0, numRead);
             }
-
-            System.out.println("worked -> " + in);
-            return true;
+            return outString.toString();
         } catch (MalformedURLException  e){
             System.out.println("Error: " + e.getMessage());
             e.printStackTrace();
@@ -57,52 +59,52 @@ public class JSONAsyncTask extends AsyncTask<String, Void, Boolean>{
             System.out.println("Error: " + e.getMessage());
             e.printStackTrace();
         } finally {
-
-            try {
-                JSONObject jsonObj = new JSONObject(outString.toString());
-                JSONObject urlObj = new JSONObject(jsonObj.getJSONObject("photos").getJSONArray("photo").get(0).toString());
-                //System.out.println(jsonObj.getJSONObject("photos").getJSONArray("photo").get(1).toString());
-               // getURLFromJson(urlObj);
-                System.out.println(urlObj.toString());
-
-
-            } catch (JSONException e){
-                System.out.println("Error: " + e.getMessage());
-                e.printStackTrace();
-            }
-
-
             urlConnection.disconnect();
         }
-        return false;
+        return "";
     }
 
-    public void print(){
-        System.out.println("" + bufferdResult);
-    }
-
-    public void getURLFromJson(JSONObject jsonData){
+    public String getURLFromJson(JSONObject jsonData){
         String farm = "";
-     //   String serverId = "";
-        System.out.println(jsonData.toString());
+        String serverId = "";
+        String id = "";
+        String secret = "";
+        String finalUrl = "";
+
         try{
-             farm = jsonData.getString("farm");
-          //  serverId = jsonData.getString("server");
+            farm = jsonData.getString("farm");
+            serverId = jsonData.getString("server");
+            id = jsonData.getString("id");
+            secret = jsonData.getString("secret");
         } catch (JSONException e){
             System.out.println("Error: " + e.getMessage());
             e.printStackTrace();
         }
 
-      //  System.out.println("JSON URL ->" + "https://farm" + farm + ".staticflickr.com/" + serverId);
+        finalUrl = "https://farm" + farm + ".staticflickr.com/" + serverId + "/" + id + "_" + secret + ".jpg";
+        return finalUrl;
     }
 
-   // {server-id}/{id}_{secret}.jpg
+    protected void onPostExecute(String result) {
+        String url = "";
 
-    public String getImageUrl() {
-        return imageUrl;
-    }
+        try {
+            JSONObject jsonObj = new JSONObject(result.toString());
+            JSONObject urlObj = new JSONObject(jsonObj.getJSONObject("photos").getJSONArray("photo").get(0).toString());
+            url = getURLFromJson(urlObj);
+        } catch (JSONException e){
+            System.out.println("Error: " + e.getMessage());
+            e.printStackTrace();
+        }
 
-    protected void onPostExecute(Boolean result) {
+        System.out.println("result = " + url);
+
+
+        ImageView aTextView = (ImageView) ((Activity)context).findViewById(R.id.testImage);
+
+        Picasso.with(context).load(url).into((ImageView)  aTextView);
 
     }
 }
+
+//  "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=e07a1743a12566b5e20dd17eae2a295e&tags=City%2CLandscape%2CNature&geo_context=0&lat=53.0833333&lon=8.8&10&format=json&per_page=10&page=1&nojsoncallback=1"

@@ -18,8 +18,10 @@ public class FlickrApiQueryManager {
     public  static  final String GEO_CONTEXT_STRING = "&geo_context=0";
     public  static  final int PHOTO_THUMB = 111;
     public  static  final int PHOTO_LARGE = 222;
-    public  static  final String LAT    = "&lat=53.0833333";
-    public  static  final String LON    = "&lon=8.8";
+   // public  static  final String LAT    = "&lat=53.0833333";
+   // public  static  final String LON    = "&lon=8.8";
+    //public          final double LAT    = 53.0833333;
+    //public          static  final double LON    = 8.8;
     public  static  final String RADIUS = "&10";
     public  static  final String FORMAT = "&format=json";
 
@@ -28,11 +30,11 @@ public class FlickrApiQueryManager {
     private static final String APIKEY_SEARCH_STRING = "&api_key=e07a1743a12566b5e20dd17eae2a295e";
 
     // creating the URL
-    public String createURL() {
+    public String createURL(double LAT, double LON) {
         String url = null;
         String method_type = "";
         method_type = FLICKR_PHOTOS_SEARCH_STRING;
-        url = FLICKR_BASE_URL + method_type + APIKEY_SEARCH_STRING + TAGS_STRING + GEO_CONTEXT_STRING + LAT + LON + RADIUS + FORMAT + "&per_page=10&page=1&nojsoncallback=1";
+        url = FLICKR_BASE_URL + method_type + APIKEY_SEARCH_STRING + TAGS_STRING + GEO_CONTEXT_STRING + "&lat=" + LAT + "&lon=" + LON + RADIUS + FORMAT + "&per_page=10&page=1&nojsoncallback=1";
         return url;
     }
 }

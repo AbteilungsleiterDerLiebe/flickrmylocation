@@ -1,16 +1,11 @@
 package de.hs_bremen.nhinte.flickrmylocation;
 
-import android.media.Image;
+
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import com.squareup.picasso.Picasso;
-
 
 public class MainActivity extends AppCompatActivity {
 

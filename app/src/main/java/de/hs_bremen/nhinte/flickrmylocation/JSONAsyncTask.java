@@ -136,26 +136,28 @@ public class JSONAsyncTask extends AsyncTask<String, String, String>{
             e.printStackTrace();
         }
 
+        HorizontalScrollView hView = (HorizontalScrollView) ((Activity)context).findViewById(R.id.horizontalScrollView);
+        int color = Color.argb(255, 0, 0, 0);
+        hView.setBackgroundColor(color);
+
+        int screenHight = hView.getHeight();
+
         ImageView aTextView = (ImageView) ((Activity)context).findViewById(R.id.testImage);
-        Picasso.with(context).load(url).resize(0,500).into((ImageView) aTextView);
+        Picasso.with(context).load(url).resize(0,screenHight).into((ImageView) aTextView);
 
         ImageView aTextView2 = (ImageView) ((Activity)context).findViewById(R.id.testImage2);
-        Picasso.with(context).load(url2).resize(0,500).into((ImageView) aTextView2);
+        Picasso.with(context).load(url2).resize(0,screenHight).into((ImageView) aTextView2);
 
         ImageView aTextView3 = (ImageView) ((Activity)context).findViewById(R.id.testImage3);
-        Picasso.with(context).load(url3).resize(0, 500).into((ImageView) aTextView3);
+        Picasso.with(context).load(url3).resize(0, screenHight).into((ImageView) aTextView3);
 
         ImageView aTextView4 = (ImageView) ((Activity)context).findViewById(R.id.testImage4);
-        Picasso.with(context).load(url4).resize(0, 500).into((ImageView) aTextView4);
+        Picasso.with(context).load(url4).resize(0, screenHight).into((ImageView) aTextView4);
 
         ImageView aTextView5 = (ImageView) ((Activity)context).findViewById(R.id.testImage5);
-        Picasso.with(context).load(url5).resize(0,500).into((ImageView) aTextView5);
+        Picasso.with(context).load(url5).resize(0,screenHight).into((ImageView) aTextView5);
 
-        HorizontalScrollView hView = (HorizontalScrollView) ((Activity)context).findViewById(R.id.horizontalScrollView);
 
-        int color = Color.argb(255, 0, 0, 0);
-
-        hView.setBackgroundColor(color);
 
     }
 }

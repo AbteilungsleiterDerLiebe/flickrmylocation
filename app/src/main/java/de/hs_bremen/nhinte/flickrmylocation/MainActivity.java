@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
     public void createUrlTextfield() {
 
         FlickrApiQueryManager flickrApiQueryManager = new FlickrApiQueryManager();

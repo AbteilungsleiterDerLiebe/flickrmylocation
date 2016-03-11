@@ -51,11 +51,13 @@ public class MainActivity extends AppCompatActivity {
     public void createUrlTextfield() {
 
         FlickrApiQueryManager flickrApiQueryManager = new FlickrApiQueryManager();
-        String url = "" + flickrApiQueryManager.createURL(53.0833333, 8.8);
-        new JSONAsyncTask(this, url).execute();
 
+        // Bremen
+       // String url = "" + flickrApiQueryManager.createURL(53.0833333, 8.8);
+
+        //New York
+        String url = "" + flickrApiQueryManager.createURL(40.748817, -73.985428);
+
+        new JSONAsyncTask(this, url).execute();
     }
 }
-
-
-

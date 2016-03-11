@@ -3,7 +3,9 @@ package de.hs_bremen.nhinte.flickrmylocation;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.AsyncTask;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -148,6 +150,12 @@ public class JSONAsyncTask extends AsyncTask<String, String, String>{
 
         ImageView aTextView5 = (ImageView) ((Activity)context).findViewById(R.id.testImage5);
         Picasso.with(context).load(url5).resize(0,500).into((ImageView) aTextView5);
+
+        HorizontalScrollView hView = (HorizontalScrollView) ((Activity)context).findViewById(R.id.horizontalScrollView);
+
+        int color = Color.argb(255, 0, 0, 0);
+
+        hView.setBackgroundColor(color);
 
     }
 }

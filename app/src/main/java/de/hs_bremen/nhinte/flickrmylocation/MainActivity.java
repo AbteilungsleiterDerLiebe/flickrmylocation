@@ -51,11 +51,6 @@ public class MainActivity extends AppCompatActivity {
     public void createUrlTextfield() {
 
         FlickrApiQueryManager flickrApiQueryManager = new FlickrApiQueryManager();
-        //String asd = flickrApiQueryManager.createURL(53, 8);
-
-        TextView test = (TextView) findViewById(R.id.testUrl);
-       // test.setText(asd);
-
         String url = "" + flickrApiQueryManager.createURL(53.0833333, 8.8);
         new JSONAsyncTask(this, url).execute();
 

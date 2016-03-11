@@ -18,10 +18,6 @@ public class FlickrApiQueryManager {
     public  static  final String GEO_CONTEXT_STRING = "&geo_context=0";
     public  static  final int PHOTO_THUMB = 111;
     public  static  final int PHOTO_LARGE = 222;
-   // public  static  final String LAT    = "&lat=53.0833333";
-   // public  static  final String LON    = "&lon=8.8";
-    //public          final double LAT    = 53.0833333;
-    //public          static  final double LON    = 8.8;
     public  static  final String RADIUS = "&10";
     public  static  final String FORMAT = "&format=json";
 

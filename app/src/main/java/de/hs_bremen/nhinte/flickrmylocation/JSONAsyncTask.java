@@ -106,5 +106,3 @@ public class JSONAsyncTask extends AsyncTask<String, String, String>{
 
     }
 }
-
-//  "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=e07a1743a12566b5e20dd17eae2a295e&tags=City%2CLandscape%2CNature&geo_context=0&lat=53.0833333&lon=8.8&10&format=json&per_page=10&page=1&nojsoncallback=1"

@@ -18,6 +18,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class JSONAsyncTask extends AsyncTask<String, String, String>{
 
@@ -69,7 +70,6 @@ public class JSONAsyncTask extends AsyncTask<String, String, String>{
         String serverId = "";
         String id = "";
         String secret = "";
-        String finalUrl = "";
 
         try{
             farm = jsonData.getString("farm");
@@ -81,28 +81,73 @@ public class JSONAsyncTask extends AsyncTask<String, String, String>{
             e.printStackTrace();
         }
 
-        finalUrl = "https://farm" + farm + ".staticflickr.com/" + serverId + "/" + id + "_" + secret + ".jpg";
-        return finalUrl;
+        return "https://farm" + farm + ".staticflickr.com/" + serverId + "/" + id + "_" + secret + ".jpg";
+    }
+
+    public ArrayList<String> parseJSON(JSONObject vars){
+
+        JSONObject URLs = vars;
+
+        ArrayList<String> myURLs = new ArrayList<String>();
+        try {
+
+            for(int i = 0; i < URLs.getJSONObject("photos").getJSONArray("photo").length(); i++){
+                JSONObject tmpJSON = new JSONObject(URLs.getJSONObject("photos").getJSONArray("photo").get(i).toString());
+                myURLs.add(getURLFromJson(tmpJSON));
+            }
+
+        } catch (JSONException e){
+            System.out.println("Error: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+
+        return myURLs;
     }
 
     protected void onPostExecute(String result) {
         String url = "";
+        String url2 = "";
+        String url3 = "";
+        String url4 = "";
+        String url5 = "";
 
         try {
             JSONObject jsonObj = new JSONObject(result.toString());
             JSONObject urlObj = new JSONObject(jsonObj.getJSONObject("photos").getJSONArray("photo").get(0).toString());
+
+            ArrayList<String> myURLs = parseJSON(jsonObj);
+            System.out.println(" ARRAY: " + myURLs.get(1).toString());
+            System.out.println(" ARRAY: " + myURLs.get(0).toString());
+            System.out.println(" ARRAY: " + myURLs.get(2).toString());
+            System.out.println(" ARRAY: " + myURLs.get(3).toString());
+
+            url = myURLs.get(0).toString();
+            url2 = myURLs.get(1).toString();
+            url3 = myURLs.get(2).toString();
+            url4 = myURLs.get(3).toString();
+            url5 = myURLs.get(4).toString();
+
             url = getURLFromJson(urlObj);
         } catch (JSONException e){
             System.out.println("Error: " + e.getMessage());
             e.printStackTrace();
         }
 
-        System.out.println("result = " + url);
-
-
         ImageView aTextView = (ImageView) ((Activity)context).findViewById(R.id.testImage);
+        Picasso.with(context).load(url).resize(0,500).into((ImageView) aTextView);
 
-        Picasso.with(context).load(url).into((ImageView)  aTextView);
+        ImageView aTextView2 = (ImageView) ((Activity)context).findViewById(R.id.testImage2);
+        Picasso.with(context).load(url2).resize(0,500).into((ImageView) aTextView2);
+
+        ImageView aTextView3 = (ImageView) ((Activity)context).findViewById(R.id.testImage3);
+        Picasso.with(context).load(url3).resize(0, 500).into((ImageView) aTextView3);
+
+        ImageView aTextView4 = (ImageView) ((Activity)context).findViewById(R.id.testImage4);
+        Picasso.with(context).load(url4).resize(0, 500).into((ImageView) aTextView4);
+
+        ImageView aTextView5 = (ImageView) ((Activity)context).findViewById(R.id.testImage5);
+        Picasso.with(context).load(url5).resize(0,500).into((ImageView) aTextView5);
 
     }
 }

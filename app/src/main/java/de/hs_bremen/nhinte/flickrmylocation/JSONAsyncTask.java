@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.media.Image;
 import android.os.AsyncTask;
+import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -130,14 +131,16 @@ public class JSONAsyncTask extends AsyncTask<String, String, String>{
                 JSONObject jsonObj = new JSONObject(result.toString());
                 ArrayList<String> myURLs = parseJSON(jsonObj);
 
-                //prints pictures
-                for(String object: myURLs){
-                    ImageView iv = new ImageView(this.context);
-                    Picasso.with(context).load(object).resize(0, screenHight).into( iv);
-                    LinearLayout imageLayout = (LinearLayout) ((Activity)context).findViewById(R.id.imageLayout);
-                    imageLayout.addView(iv);
+                if(myURLs!=null){
+                    //prints pictures
+                    for(String object: myURLs){
+                        ImageView iv = new ImageView(this.context);
+                        iv.setPadding(5,5,5,5);
+                        Picasso.with(context).load(object).resize(0, screenHight).into( iv);
+                        LinearLayout imageLayout = (LinearLayout) ((Activity)context).findViewById(R.id.imageLayout);
+                        imageLayout.addView(iv);
+                    }
                 }
-
             } catch (JSONException e){
                 System.out.println("Error: " + e.getMessage());
                 e.printStackTrace();

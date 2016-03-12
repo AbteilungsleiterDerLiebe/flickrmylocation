@@ -11,7 +11,7 @@ public class FlickrApiQueryManager {
     private static  final String FLICKR_GET_SIZES_STRING = "flickr.photos.getSizes";
     private static  final int FLICKR_PHOTOS_SEARCH_ID = 1;
     private static  final int FLICKR_GET_SIZES_ID = 2;
-    private static  final int NUMBER_OF_PHOTOS = 20;
+    private static  final int NUMBER_OF_PHOTOS = 5;
     private static  final String TAGS_STRING = "&tags=City%2CLandscape%2CNature";
     private static  final String PHOTO_ID_STRING = "&photo_id=";
     private static  final String FORMAT_STRING = "&format=json";
@@ -27,10 +27,10 @@ public class FlickrApiQueryManager {
 
     // creating the URL
     public String createURL(double LAT, double LON) {
-        String url = null;
-        String method_type = "";
+        String url;
+        String method_type;
         method_type = FLICKR_PHOTOS_SEARCH_STRING;
-        url = FLICKR_BASE_URL + method_type + APIKEY_SEARCH_STRING + TAGS_STRING + GEO_CONTEXT_STRING + "&lat=" + LAT + "&lon=" + LON + RADIUS + FORMAT + "&per_page=10&page=1&nojsoncallback=1";
+        url = FLICKR_BASE_URL + method_type + APIKEY_SEARCH_STRING + TAGS_STRING + GEO_CONTEXT_STRING + "&lat=" + LAT + "&lon=" + LON + RADIUS + FORMAT + "&per_page=" + NUMBER_OF_PHOTOS + "&page=1&nojsoncallback=1";
         return url;
     }
 }

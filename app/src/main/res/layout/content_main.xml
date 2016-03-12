@@ -38,6 +38,7 @@
             android:layout_height="match_parent"
             android:foregroundGravity="bottom|top"
             android:id="@+id/imageLayout">
+
         </LinearLayout>
     </HorizontalScrollView>
 

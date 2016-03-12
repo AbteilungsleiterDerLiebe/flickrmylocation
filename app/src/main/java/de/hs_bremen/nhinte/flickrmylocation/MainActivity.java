@@ -57,7 +57,9 @@ public class MainActivity extends AppCompatActivity {
         FlickrApiQueryManager flickrApiQueryManager = new FlickrApiQueryManager();
 
         // Bremen
-         String url = "" + flickrApiQueryManager.createURL(53.0833333, 8.8);
+        // String url = "" + flickrApiQueryManager.createURL(53.0833333, 8.8);
+
+        String url = "" + flickrApiQueryManager.createURL(0, 0);
 
         //New York
         //String url = "" + flickrApiQueryManager.createURL(40.748817, -73.985428);

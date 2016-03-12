@@ -13,16 +13,6 @@
     tools:showIn="@layout/activity_main"
     android:background="?attr/colorPrimary">
 
-
-    <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/swipe_refresh_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <!-- place your view here -->
-
-
-
     <HorizontalScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -42,6 +32,6 @@
         </LinearLayout>
     </HorizontalScrollView>
 
-    </android.support.v4.widget.SwipeRefreshLayout>
+
 
 </RelativeLayout>

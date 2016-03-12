@@ -1,11 +1,20 @@
 package de.hs_bremen.nhinte.flickrmylocation;
 
 
+import android.Manifest;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -43,17 +52,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     public void createUrlTextfield() {
 
         FlickrApiQueryManager flickrApiQueryManager = new FlickrApiQueryManager();
 
         // Bremen
-       // String url = "" + flickrApiQueryManager.createURL(53.0833333, 8.8);
+         String url = "" + flickrApiQueryManager.createURL(53.0833333, 8.8);
 
         //New York
-        String url = "" + flickrApiQueryManager.createURL(40.748817, -73.985428);
+        //String url = "" + flickrApiQueryManager.createURL(40.748817, -73.985428);
 
         new JSONAsyncTask(this, url).execute();
     }
+
 }

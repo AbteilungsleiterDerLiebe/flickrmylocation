@@ -4,9 +4,11 @@ package de.hs_bremen.nhinte.flickrmylocation;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.media.Image;
 import android.os.AsyncTask;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -28,7 +30,10 @@ public class JSONAsyncTask extends AsyncTask<String, String, String>{
         super.onPreExecute();
     }
 
+    // context from main activity
     private Context context;
+
+    // target URL for API query
     private String targetUrl;
 
     public JSONAsyncTask(Context context, String targetUrl){
@@ -38,14 +43,16 @@ public class JSONAsyncTask extends AsyncTask<String, String, String>{
 
     @Override
     protected String doInBackground(String... urls) {
-        URL url = null;
+
+        // init parameters for http connection
+        URL url;
         HttpURLConnection urlConnection = null;
         ByteArrayOutputStream outString = new ByteArrayOutputStream();
         int numRead;
         final int bufferSize = 1024;
         byte[] buffer = new byte[bufferSize];
 
-
+        // Opens http stream with flickr
         try {
             url = new URL(targetUrl);
             urlConnection = (HttpURLConnection) url.openConnection();
@@ -64,7 +71,7 @@ public class JSONAsyncTask extends AsyncTask<String, String, String>{
         } finally {
             urlConnection.disconnect();
         }
-        return "";
+        return "ERROR";
     }
 
     public String getURLFromJson(JSONObject jsonData){
@@ -108,56 +115,34 @@ public class JSONAsyncTask extends AsyncTask<String, String, String>{
     }
 
     protected void onPostExecute(String result) {
-        String url = "";
-        String url2 = "";
-        String url3 = "";
-        String url4 = "";
-        String url5 = "";
-
-        try {
-            JSONObject jsonObj = new JSONObject(result.toString());
-            JSONObject urlObj = new JSONObject(jsonObj.getJSONObject("photos").getJSONArray("photo").get(0).toString());
-
-            ArrayList<String> myURLs = parseJSON(jsonObj);
-            System.out.println(" ARRAY: " + myURLs.get(1).toString());
-            System.out.println(" ARRAY: " + myURLs.get(0).toString());
-            System.out.println(" ARRAY: " + myURLs.get(2).toString());
-            System.out.println(" ARRAY: " + myURLs.get(3).toString());
-
-            url = myURLs.get(0).toString();
-            url2 = myURLs.get(1).toString();
-            url3 = myURLs.get(2).toString();
-            url4 = myURLs.get(3).toString();
-            url5 = myURLs.get(4).toString();
-
-            url = getURLFromJson(urlObj);
-        } catch (JSONException e){
-            System.out.println("Error: " + e.getMessage());
-            e.printStackTrace();
-        }
 
         HorizontalScrollView hView = (HorizontalScrollView) ((Activity)context).findViewById(R.id.horizontalScrollView);
-        int color = Color.argb(255, 0, 0, 0);
-        hView.setBackgroundColor(color);
-
         int screenHight = hView.getHeight();
 
-        ImageView aTextView = (ImageView) ((Activity)context).findViewById(R.id.testImage);
-        Picasso.with(context).load(url).resize(0,screenHight).into((ImageView) aTextView);
+        // show error png if there's no connection/API isnt responding
+        if(result == "ERROR"){
+            ImageView iv = new ImageView(this.context);
+            Picasso.with(context).load(R.drawable.networkerror).resize(0, screenHight).into( iv);
+            LinearLayout imageLayout = (LinearLayout) ((Activity)context).findViewById(R.id.imageLayout);
+            imageLayout.addView(iv);
+        } else {
+            try {
+                JSONObject jsonObj = new JSONObject(result.toString());
+                ArrayList<String> myURLs = parseJSON(jsonObj);
 
-        ImageView aTextView2 = (ImageView) ((Activity)context).findViewById(R.id.testImage2);
-        Picasso.with(context).load(url2).resize(0,screenHight).into((ImageView) aTextView2);
+                //prints pictures
+                for(String object: myURLs){
+                    ImageView iv = new ImageView(this.context);
+                    Picasso.with(context).load(object).resize(0, screenHight).into( iv);
+                    LinearLayout imageLayout = (LinearLayout) ((Activity)context).findViewById(R.id.imageLayout);
+                    imageLayout.addView(iv);
+                }
 
-        ImageView aTextView3 = (ImageView) ((Activity)context).findViewById(R.id.testImage3);
-        Picasso.with(context).load(url3).resize(0, screenHight).into((ImageView) aTextView3);
+            } catch (JSONException e){
+                System.out.println("Error: " + e.getMessage());
+                e.printStackTrace();
+            }
 
-        ImageView aTextView4 = (ImageView) ((Activity)context).findViewById(R.id.testImage4);
-        Picasso.with(context).load(url4).resize(0, screenHight).into((ImageView) aTextView4);
-
-        ImageView aTextView5 = (ImageView) ((Activity)context).findViewById(R.id.testImage5);
-        Picasso.with(context).load(url5).resize(0,screenHight).into((ImageView) aTextView5);
-
-
-
+        }
     }
 }
